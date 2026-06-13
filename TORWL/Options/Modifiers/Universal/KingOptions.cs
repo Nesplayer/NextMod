@@ -10,7 +10,7 @@ namespace TORWL.Options.Modifiers.Universal
 {
     public class KingOptions : AbstractOptionGroup<KingModifier>
     {
-        public override string GroupName => "V.I.P Options";
+        public override string GroupName => "V.I.P";
         public override Color GroupColor => LaunchpadPalette.KingMenu;
         public override Func<bool> GroupVisible =>
             () => OptionGroupSingleton<UniversalModifierOptions>.Instance.KingChance > 0;

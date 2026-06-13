@@ -19,6 +19,7 @@ using MiraAPI.Modifiers.Types;
 using TORWL.Modifiers;
 using MiraAPI.Modifiers;
 using MiraAPI.Utilities;
+using TORWL.Roles;
 using TORWL.Utilities;
 
 namespace TORWL.Features.Wiki
@@ -39,13 +40,15 @@ namespace TORWL.Features.Wiki
         private Transform? _modifierContentRoot;
         private GameObject? _modifierButtonTemplate;
         private bool _hasPopulatedModifiers;
-        
+
         private Transform? _infoContent;
         private TextMeshProUGUI? _roleLongDescription;
-        
+        private TextMeshProUGUI? _roleOptionsText;
+
         private Transform? _modifierInfoContent;
         private TextMeshProUGUI? _modifierDescription;
-        
+        private TextMeshProUGUI? _modifierOptionsText;
+
         private enum ModifierCategory
         {
             Universal,
@@ -202,12 +205,14 @@ namespace TORWL.Features.Wiki
             if (_infoContent != null)
             {
                 _roleLongDescription = FindChildRecursive(_infoContent, "Description")?.GetComponent<TextMeshProUGUI>()!;
+                _roleOptionsText = FindChildRecursive(_infoContent, "Options")?.GetComponent<TextMeshProUGUI>();
             }
-            
+
             _modifierInfoContent = FindChildRecursive(transform, "ModifierInfo")!;
             if (_modifierInfoContent != null)
             {
                 _modifierDescription = FindChildRecursive(_modifierInfoContent, "Description")?.GetComponent<TextMeshProUGUI>()!;
+                _modifierOptionsText = FindChildRecursive(_modifierInfoContent, "Options")?.GetComponent<TextMeshProUGUI>();
             }
 
             var exitBtn = FindChildRecursive(transform, "X")
@@ -259,16 +264,23 @@ namespace TORWL.Features.Wiki
         }
         
         [HideFromIl2Cpp]
-        public void SelectRole(ICustomRole? role)
+        public void SelectRole(ICustomRole role)
+        {
+            var wikiDesc = role as IWikiRole;
+            SelectRole(role, wikiDesc);
+        }
+
+        [HideFromIl2Cpp]
+        public void SelectRole(ICustomRole role, IWikiRole? wikiDesc)
         {
             if (role == null || _infoContent == null) return;
 
             if (_roleLongDescription != null)
             {
                 string baseDescription =
-                    string.IsNullOrEmpty(role.RoleLongDescription)
-                        ? $"{role.RoleName} has no set description.\nIt is either missing, does not exist or is a different type of role."
-                        : role.RoleLongDescription;
+                    string.IsNullOrEmpty(wikiDesc.WikiDescription)
+                        ? $"<size=75%>{role.RoleName} has no set wiki description.\nIt is either missing, does not exist or is a different type of role.</size>"
+                        : $"<size=75%>{wikiDesc.WikiDescription}</size>";
 
                 _roleLongDescription.text = baseDescription;
             }
@@ -308,8 +320,8 @@ namespace TORWL.Features.Wiki
                 {
                     ICrewmateRole crewmate => Utils.GetCrewmateFactionDisplay(crewmate),
                     IImpostorRole impostor => Utils.GetImpostorFactionDisplay(impostor),
-                    INeutralRole neutral   => Utils.GetNeutralFactionDisplay(neutral),
-                    ICovenRole coven       => Utils.GetCovenFactionDisplay(coven),
+                    INeutralRole neutral => Utils.GetNeutralFactionDisplay(neutral),
+                    ICovenRole coven => Utils.GetCovenFactionDisplay(coven),
                     _ => "Unknown"
                 };
             }
@@ -323,6 +335,24 @@ namespace TORWL.Features.Wiki
                 if (child == factionText?.gameObject) continue;
                 if (child.name.Contains("(Clone)")) Destroy(child);
             }
+
+            if (_roleOptionsText != null)
+            {
+                // Find the AbstractOptionGroup type associated with this role type
+                var roleType = role.GetType();
+                var optGroupType = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(a => { try { return a.GetTypes(); } catch { return Array.Empty<Type>(); } })
+                    .FirstOrDefault(t =>
+                        !t.IsAbstract &&
+                        t.BaseType?.IsGenericType == true &&
+                        t.BaseType.GetGenericTypeDefinition() == typeof(AbstractOptionGroup<>) &&
+                        t.BaseType.GetGenericArguments()[0] == roleType);
+
+                _roleOptionsText.richText = true;
+                _roleOptionsText.text = optGroupType != null
+                    ? BuildOptionsText(optGroupType)
+                    : "No configurable options.";
+            }
         }
 
         [HideFromIl2Cpp]
@@ -334,12 +364,12 @@ namespace TORWL.Features.Wiki
             {
                 string baseDescription =
                     string.IsNullOrEmpty(mod.GetDescription())
-                        ? $"{mod.ModifierName} has no set description."
-                        : mod.GetDescription();
+                        ? $"<size=75%>{mod.ModifierName} has no set description.</size>"
+                        : $"<size=75%>{mod.GetDescription}</size>";
 
                 _modifierDescription.text = baseDescription;
             }
-            
+
             var modInfoContainer = FindChildRecursive(_modifierInfoContent, "Info");
             if (modInfoContainer == null) return;
 
@@ -357,12 +387,12 @@ namespace TORWL.Features.Wiki
                 var sprite = mod.ModifierIcon.LoadAsset();
                 if (sprite != null) modIconImage.sprite = sprite;
             }
-            
+
             var modCategory = GetModifierCategoryType(mod);
             var modFactionText = modInfoContainer
                 .GetComponentsInChildren<TextMeshProUGUI>(true)
                 .FirstOrDefault(t => t.name.Equals("FactionText", StringComparison.OrdinalIgnoreCase));
-            
+
             if (modFactionText != null)
             {
                 string faction = GetModifierCategory(mod);
@@ -380,6 +410,23 @@ namespace TORWL.Features.Wiki
                 if (child == modFactionText?.gameObject) continue;
                 if (child.name.Contains("(Clone)")) Destroy(child);
             }
+
+            if (_modifierOptionsText != null)
+            {
+                var modType = mod.GetType();
+                var optGroupType = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(a => { try { return a.GetTypes(); } catch { return Array.Empty<Type>(); } })
+                    .FirstOrDefault(t =>
+                        !t.IsAbstract &&
+                        t.BaseType?.IsGenericType == true &&
+                        t.BaseType.GetGenericTypeDefinition() == typeof(AbstractOptionGroup<>) &&
+                        t.BaseType.GetGenericArguments()[0] == modType);
+
+                _modifierOptionsText.richText = true;
+                _modifierOptionsText.text = optGroupType != null
+                    ? BuildOptionsText(optGroupType)
+                    : "No configurable options.";
+            }
         }
 
         [HideFromIl2Cpp]
@@ -392,7 +439,7 @@ namespace TORWL.Features.Wiki
             // Fix CS8604: Ensure role isn't null
             if (role != null) SelectRole(role);
         }
-        
+
         [HideFromIl2Cpp]
         public void OnModifierButtonClicked(int modifierIndex)
         {
@@ -429,8 +476,8 @@ namespace TORWL.Features.Wiki
                 {
                     ICrewmateRole crewmate => Utils.GetCrewmateFactionDisplay(crewmate),
                     IImpostorRole impostor => Utils.GetImpostorFactionDisplay(impostor),
-                    INeutralRole neutral   => Utils.GetNeutralFactionDisplay(neutral),
-                    ICovenRole coven       => Utils.GetCovenFactionDisplay(coven),
+                    INeutralRole neutral => Utils.GetNeutralFactionDisplay(neutral),
+                    ICovenRole coven => Utils.GetCovenFactionDisplay(coven),
                     _ => null
                 };
 
@@ -478,7 +525,7 @@ namespace TORWL.Features.Wiki
                     var sprite = roleBehaviour.Configuration.Icon.LoadAsset();
                     if (sprite != null) icon.sprite = sprite;
                 }
-                
+
                 int index = i;
                 var btnComp = button.GetComponent<Button>();
                 if (btnComp != null)
@@ -533,7 +580,7 @@ namespace TORWL.Features.Wiki
 
                 var tint = button.transform.Find("Tint")?.GetComponent<Image>();
                 if (tint != null) tint.color = GetModifierCategoryColor(gameModifier);
-                
+
                 int index = i;
                 var btnComp = button.GetComponent<Button>();
                 if (btnComp != null)
@@ -585,6 +632,86 @@ namespace TORWL.Features.Wiki
         {
             Instance = null;
             Destroy(gameObject);
+        }
+
+        [HideFromIl2Cpp]
+        private string BuildOptionsText(Type optionGroupType)
+        {
+            var sb = new System.Text.StringBuilder();
+
+            object? instance = null;
+            try { instance = Activator.CreateInstance(optionGroupType); } catch { }
+
+            var lines = new System.Collections.Generic.List<string>();
+
+            foreach (var prop in optionGroupType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                var attr = prop.GetCustomAttribute<ModdedOptionAttribute>();
+                if (attr == null) continue;
+
+                string title = attr.Title;
+                string valueStr = "?";
+                if (instance != null)
+                {
+                    try
+                    {
+                        var raw = prop.GetValue(instance);
+                        valueStr = FormatOptionValue(attr, raw);
+                    }
+                    catch { }
+                }
+
+                lines.Add($"<size=75%><b>{title}:</b> {valueStr}</size>");
+            }
+
+            if (lines.Count == 0)
+                return "<size=75%>No configurable options.</size>";
+
+            sb.AppendLine("<size=75%><color=#0023bf>Options:</color></size>");
+            foreach (var line in lines)
+                sb.AppendLine(line);
+
+            return sb.ToString().TrimEnd();
+        }
+
+        private string FormatOptionValue(ModdedOptionAttribute attr, object? raw)
+        {
+            if (attr is ModdedNumberOptionAttribute numAttr)
+            {
+                if (raw is float f)
+                {
+                    // Find zeroInfinity by name
+                    var zeroInfField = typeof(ModdedNumberOptionAttribute)
+                        .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                        .FirstOrDefault(x => x.Name.Contains("zeroInfinity"));
+                    bool zeroInf = zeroInfField != null && zeroInfField.GetValue(numAttr) is bool b && b;
+                    if (zeroInf && f == 0f) return "∞";
+
+                    // Find suffixType by type (MiraNumberSuffixes) since the field name is compiler-mangled
+                    var suffixField = typeof(ModdedNumberOptionAttribute)
+                        .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                        .FirstOrDefault(x => x.FieldType == typeof(MiraNumberSuffixes));
+                    var suffix = suffixField != null ? (MiraNumberSuffixes)suffixField.GetValue(numAttr)! : MiraNumberSuffixes.None;
+
+                    return suffix switch
+                    {
+                        MiraNumberSuffixes.Seconds => $"{f}s",
+                        MiraNumberSuffixes.Multiplier => $"{f}x",
+                        MiraNumberSuffixes.Percent => $"{f}%",
+                        _ => $"{f}"
+                    };
+                }
+            }
+            else if (attr is ModdedToggleOptionAttribute)
+            {
+                if (raw is bool b) return b ? "On" : "Off";
+            }
+            else if (attr is ModdedEnumOptionAttribute)
+            {
+                return raw?.ToString() ?? "?";
+            }
+
+            return raw?.ToString() ?? "?";
         }
     }
 }

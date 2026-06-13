@@ -5,13 +5,16 @@ using MiraAPI.Utilities.Assets;
 using UnityEngine;
 using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
+using TORWL.Roles;
 
 namespace TORWL.Modifiers.Game.Universal;
 
-public sealed class FlashModifier : LPModifier
+public sealed class FlashModifier : LPModifier, IModifierDescription
 {
-    public override string ModifierName => $"<color=#{LaunchpadPalette.Flash.ToHtmlStringRGBA()}>Flash</color>";
+    public override string ModifierName => "Flash";
     public override LoadableAsset<Sprite>? ModifierIcon => LaunchpadAssets.FlashIcon;
+    public string WikiDescription => $"<color=#{LaunchpadPalette.Flash.ToHtmlStringRGBA()}>Flash</color>:\n"+
+                                      "You are faster than the set player speed which can help with getting tasks done faster, escape kills quickly or flee the murder scene.";
     public override int GetAssignmentChance() => (int)OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashChance;
     public override int GetAmountPerGame() => (int)OptionGroupSingleton<FlashOptions>.Instance.FlashAmount;
     public override Color FreeplayFileColor => Color.yellow;

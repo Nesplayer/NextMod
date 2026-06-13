@@ -10,7 +10,7 @@ namespace TORWL.Options.Modifiers.Universal
 {
     public class FlashOptions : AbstractOptionGroup<FlashModifier>
     {
-        public override string GroupName => "Flash Options";
+        public override string GroupName => "Flash";
         public override Color GroupColor => LaunchpadPalette.FlashMenu;
         public override Func<bool> GroupVisible =>
             () => OptionGroupSingleton<UniversalModifierOptions>.Instance.FlashChance > 0;

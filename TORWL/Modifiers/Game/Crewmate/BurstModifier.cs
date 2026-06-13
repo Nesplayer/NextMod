@@ -8,14 +8,19 @@ using MiraAPI.Utilities.Assets;
 using Reactor.Utilities.Extensions;
 using MiraAPI.Modifiers.Types;
 using UnityEngine;
+using TORWL.Roles;
 
 namespace TORWL.Modifiers.Game.Crewmate;
 
-public class BurstModifier : GameModifier
+public class BurstModifier : GameModifier, IModifierDescription
 {
-    public override string ModifierName => $"<color=#{LaunchpadPalette.Burst.ToHtmlStringRGBA()}>Burst</color>";
+    public override string ModifierName => "Burst";
     public override LoadableAsset<Sprite>? ModifierIcon => LaunchpadAssets.BurstIcon;
     public override Color FreeplayFileColor => new Color32(255, 77, 77, 255);
+
+    public string WikiDescription => $"<color=#{LaunchpadPalette.Burst.ToHtmlStringRGBA()}>Burst</color>:\n"+
+                                      "When you are killed, you will explode. Which can lead to unexpected deaths around the map.\n"+
+                                     $"The explosion radius is {OptionGroupSingleton<BurstOptions>.Instance.BurstRadius}x.";
 
     public override string GetDescription() =>
         "When you die, players near you also explode!";

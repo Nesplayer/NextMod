@@ -21,6 +21,7 @@ public static class LogoPatch
         if (sizer != null)
         {
             sizer.GetComponent<AspectSize>().PercentWidth = 0.3f;
+            sizer.gameObject.transform.localScale = new Vector3(0.7604f, 0.7604f, sizer.gameObject.transform.localScale.z);
         }
         
         var lpanel = GameObject.Find("LeftPanel");

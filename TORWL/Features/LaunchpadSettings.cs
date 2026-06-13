@@ -6,6 +6,7 @@ using MiraAPI.Hud;
 using MiraAPI.LocalSettings;
 using MiraAPI.LocalSettings.Attributes;
 using Object = Il2CppSystem.Object;
+using UnityEngine;
 
 namespace TORWL.Features;
 
@@ -15,7 +16,10 @@ public class LaunchpadSettings : LocalSettingsTab
 
     public override LocalSettingTabAppearance TabAppearance { get; } = new()
     {
-        TabIcon = LaunchpadAssets.HackButton
+        TabIcon = LaunchpadAssets.ModIcon,
+        TabColor = Color.cyan,
+        TabButtonHoverColor = Color.cyan,
+        HideIconOnHover = true,
     };
 
     [LocalToggleSetting]

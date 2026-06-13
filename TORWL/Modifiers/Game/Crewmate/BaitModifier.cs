@@ -10,14 +10,18 @@ using MiraAPI.Modifiers.Types;
 using UnityEngine;
 using Reactor.Utilities.Extensions;
 using TORWL.Utilities;
+using TORWL.Roles;
 
 namespace TORWL.Modifiers.Game.Crewmate;
 
-public class BaitModifier : GameModifier
+public class BaitModifier : GameModifier, IModifierDescription
 {
-    public override string ModifierName => $"<color=#{LaunchpadPalette.Bait.ToHtmlStringRGBA()}>Bait</color>";
+    public override string ModifierName => "Bait";
     public override LoadableAsset<Sprite>? ModifierIcon => LaunchpadAssets.BaitIcon;
     public override Color FreeplayFileColor => LaunchpadPalette.Bait;
+
+    public string WikiDescription => $"<color=#{LaunchpadPalette.Bait.ToHtmlStringRGBA()}>Bait</color>:\n"+
+                                      "When you are killed, the player that killed you will automatically self-report your body.";
 
     public override int GetAmountPerGame()
     {

@@ -235,6 +235,41 @@
         "\n★ Translations coming soon FULLY! (Idea given from @WanderingPix).",
         "\n\n♦♦ Thank you for downloading and playing TOR-W: L! ♦♦"
       ]
+    },
+	{
+      "Date": "2026-06-23T12:50:00Z",
+      "Number": "100011",
+      "ShortTitle": "★ TOR-W: L v3.0-r ★",
+      "SubTitle": "Our BIGGEST release by FAR!",
+      "Title": "TOR-W: L v3.0-r",
+      "Text": [
+        "\rThis release will no longer be known as a part 1 or anything, this is just a normal release but it is bigger, bringing more features, roles and modifiers. Although it is STILL being split into 3 releases, it will not be in \"parts\" anymore.",
+        "\n<b>└ Added ┐</b>:",
+        "\n★ Added 7 new roles: Scribe (Coven), Hexbinder (Coven), Alchemist (Coven), Poisoner (Coven), Dominator (Coven), Shroudweaver (Coven) and Shielder (Crewmate).",
+        "\n★ Added a wiki for the mod roles and modifiers!",
+        "\n★ Added a local button: A Wiki Button.",
+        "\n★ Added Wiki buttons in the lobby pane.",
+        "\n★ Added a Coven folder exclusive to TOR-W: L.",
+        "\n★ Added Player Color Chat Bubbles (Credit to @WanderingPix).",
+        "\n★ Added role icons next to names in-game.",
+        "\n★ Added a fully working auto start option (off by default).",
+        "\n★ Added Role Summary on End Game screen. (Bugged)",
+        "\n★ Added Role Options to the wiki.",
+		"\n★ Added 2 gamemodes: Stop 'n Go and Outbreak.",
+		"\n★ Added a gamemode options menu and button.",
+        "\n\n<b>└ Removed ┐</b>:",
+        "\n★ Removed Vendetta Modifier.",
+        "\n★ Removed Inject ability from Surgeon.",
+        "\n\n<b>└ Changes ┐</b>:",
+        "\n★ Changed the colors of the modifier names.",
+        "\n★ Replaced the Toxifier role with the new Poisoner Coven Role.",
+        "\n★ Fully changed the wiki text sizes.",
+        "\n\n<b>└ Finished ┐</b>:",
+        "\n★ TOR-W: L Launcher (Idea from All Of Us server).",
+        "\n\n<b>└ Planned ┐</b>:",
+        "\n★ Translations coming soon FULLY! (Idea given from @WanderingPix).",
+        "\n\n♦♦ Thank you for downloading and playing TOR-W: L! ♦♦"
+      ]
     }
   ]
 }

@@ -61,6 +61,24 @@ public class DebugWindow(nint ptr) : MonoBehaviour(ptr)
 
         if (GUILayout.Button("Become Tavern Keeper") && allow)
             PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<TavernKeeperRole>(), false);
+        
+        if (GUILayout.Button("Become Scribe") && allow)
+                    PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<ScribeRole>(), false);
+		
+		if (GUILayout.Button("Become Hexbinder") && allow)
+                    PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<HexbinderRole>(), false);
+		
+		if (GUILayout.Button("Become Alchemist") && allow)
+                    PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<AlchemistRole>(), false);
+		
+		if (GUILayout.Button("Become Poisoner") && allow)
+                    PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<PoisonerRole>(), false);
+		
+		if (GUILayout.Button("Become Dominator") && allow)
+                    PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<DominatorRole>(), false);
+		
+		if (GUILayout.Button("Become Shroudweaver") && allow)
+                    PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<ShroudweaverRole>(), false);
 
         // ============================
         //       CREWMATE ROLES
@@ -84,6 +102,9 @@ public class DebugWindow(nint ptr) : MonoBehaviour(ptr)
 
         if (GUILayout.Button("Become Teleporter") && allow)
             PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<TeleporterRole>(), false);
+        
+        if (GUILayout.Button("Become Shielder") && allow)
+            PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<ShielderRole>(), false);
 
         // ============================
         //        IMPOSTOR ROLES
@@ -104,9 +125,6 @@ public class DebugWindow(nint ptr) : MonoBehaviour(ptr)
 
         if (GUILayout.Button("Become Surgeon") && allow)
             PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<SurgeonRole>(), false);
-
-        if (GUILayout.Button("Become Toxifier") && allow)
-            PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<ToxifierRole>(), false);
 
         if (GUILayout.Button("Become Swapshifter") && allow)
             PlayerControl.LocalPlayer.RpcSetRole((RoleTypes)RoleId.Get<SwapshifterRole>(), false);

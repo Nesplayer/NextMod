@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AmongUs.GameOptions;
 using Reactor.Utilities.Extensions;
 using TORWL.Features;
 using TORWL.Roles.Crewmate;
@@ -15,6 +16,41 @@ namespace TORWL.Utilities
         /// Maps a victim player to their killer.
         /// </summary>
         public static Dictionary<PlayerControl, PlayerControl> PlayerKiller = new Dictionary<PlayerControl, PlayerControl>();
+        
+        public static TORWLFactions? GetVanillaRoleFaction(RoleTypes role)
+        {
+            return role switch
+            {
+                RoleTypes.Crewmate      => TORWLFactions.CrewSupport,
+                RoleTypes.Engineer      => TORWLFactions.CrewPower,
+                RoleTypes.Scientist     => TORWLFactions.CrewPower,
+                RoleTypes.Noisemaker    => TORWLFactions.CrewSupport,
+                RoleTypes.Tracker       => TORWLFactions.CrewSupport,
+                RoleTypes.Detective     => TORWLFactions.CrewProtective,
+                RoleTypes.Impostor      => TORWLFactions.ImpPower,
+                RoleTypes.Shapeshifter  => TORWLFactions.Stealth,
+                RoleTypes.Phantom       => TORWLFactions.Stealth,
+                RoleTypes.Viper         => TORWLFactions.ImpPower,
+                RoleTypes.GuardianAngel => null,
+                _                       => null
+            };
+        }
+        
+        public static string GetVanillaFactionDisplay(TORWLFactions faction)
+        {
+            return faction switch
+            {
+                TORWLFactions.CrewProtective => $"<b><color=#{LaunchpadPalette.Crewmate.ToHtmlStringRGBA()}>Crewmate Protective</color></b>",
+                TORWLFactions.CrewKilling    => $"<b><color=#{LaunchpadPalette.Crewmate.ToHtmlStringRGBA()}>Crewmate Killing</color></b>",
+                TORWLFactions.CrewSupport    => $"<b><color=#{LaunchpadPalette.Crewmate.ToHtmlStringRGBA()}>Crewmate Support</color></b>",
+                TORWLFactions.CrewPower      => $"<b><color=#{LaunchpadPalette.Crewmate.ToHtmlStringRGBA()}>Crewmate Power</color></b>",
+                TORWLFactions.Saboteur       => $"<b><color=#{LaunchpadPalette.Impostor.ToHtmlStringRGBA()}>Impostor Saboteur</color></b>",
+                TORWLFactions.Stealth        => $"<b><color=#{LaunchpadPalette.Impostor.ToHtmlStringRGBA()}>Impostor Stealth</color></b>",
+                TORWLFactions.ImpPower       => $"<b><color=#{LaunchpadPalette.Impostor.ToHtmlStringRGBA()}>Impostor Power</color></b>",
+                TORWLFactions.ImpSupport     => $"<b><color=#{LaunchpadPalette.Impostor.ToHtmlStringRGBA()}>Impostor Support</color></b>",
+                _                            => "Unknown"
+            };
+        }
 
         public static string GetCrewmateFactionDisplay(ICrewmateRole role)
         {

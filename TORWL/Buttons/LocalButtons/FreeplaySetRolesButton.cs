@@ -1,5 +1,4 @@
-﻿/*
-using Il2CppSystem;
+﻿using Il2CppSystem;
 using TORWL.Components;
 using TORWL.Features;
 using TORWL.Modifiers;
@@ -13,6 +12,7 @@ using MiraAPI.Utilities;
 using MiraAPI.Utilities.Assets;
 using Rewired;
 using UnityEngine;
+using MiraAPI.Hud;
 
 namespace TORWL.Buttons.Crewmate;
 
@@ -22,8 +22,9 @@ public class SetRoleButton : BaseLaunchpadButton<PlayerControl>
     public override float Cooldown => 0;
     public override int MaxUses => 0;
     public override Color TextOutlineColor => new Color32(89, 223, 231, 255);
-    public override LoadableAsset<Sprite> Sprite => LaunchpadAssets.GambleButton;
+    public override LoadableAsset<Sprite> Sprite => LaunchpadAssets.FreeplayRoleButton;
     public override bool TimerAffectedByPlayer => true;
+    public override ButtonLocation Location => ButtonLocation.BottomLeft;
 
     public override bool Enabled(RoleBehaviour? role)
     {
@@ -47,7 +48,7 @@ public class SetRoleButton : BaseLaunchpadButton<PlayerControl>
     {
         if (Target == null) return;
 
-        var roleMenu = GuessRoleMinigame.Create();
+        var roleMenu = SetRoleMinigame.Create();
         roleMenu.Open(
             role => !role.IsDead,
             selectedRole =>
@@ -66,4 +67,3 @@ public class SetRoleButton : BaseLaunchpadButton<PlayerControl>
         ResetTarget();
     }
 }
- */

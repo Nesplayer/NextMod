@@ -3,7 +3,9 @@ using System;
 using HarmonyLib;
 using MiraAPI.Events;
 using MiraAPI.Events.Vanilla.Gameplay;
+using MiraAPI.GameOptions;
 using Reactor.Utilities.Extensions;
+using TORWL.Options;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,7 +15,7 @@ public static class InGamePlayerList
 {
     private static global::InGamePlayerList _plist = null!;
     private static bool _isOpen;
-    private static PassiveButton PlayerListButton = null!;
+    public static PassiveButton PlayerListButton = null!;
     public static void CreateButton()
     {
         _plist = UnityEngine.Object.FindFirstObjectByType<global::InGamePlayerList>(FindObjectsInactive.Include);
@@ -26,8 +28,6 @@ public static class InGamePlayerList
         PlayerListButton.activeSprites.GetComponent<SpriteRenderer>().sprite = LaunchpadAssets.PListActive.LoadAsset();
         PlayerListButton.inactiveSprites.GetComponent<SpriteRenderer>().sprite = LaunchpadAssets.PListInactive.LoadAsset();
         PlayerListButton.GetComponent<AspectPosition>().DistanceFromEdge = new(3.61f, 0.504f, -400f);
-        
-        
         
         _isOpen = false;
     }

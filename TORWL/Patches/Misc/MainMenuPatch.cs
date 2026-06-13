@@ -51,13 +51,22 @@ namespace TORWL.Patches.Misc
     {
         public static void Postfix(GameSettingMenu __instance)
         {
-            var cube = __instance.transform.Find("What Is This?/Cube");
+            var whatIsThis = __instance.transform.Find("What Is This?");
+            if (whatIsThis == null)
+            {
+                Debug.LogError("[Launchpad] Could not find What Is This?");
+                return;
+            }
 
+            var cube = whatIsThis.Find("Cube");
             if (cube == null)
             {
                 Debug.LogError("[Launchpad] Could not find Cube inside What Is This?");
                 return;
             }
+
+            cube.localScale = new Vector3(0.5f, 0.7f, 1f);
+            cube.localPosition = new Vector3(-3.085f, 0.5113f, -0.1f);
 
             var sr = cube.GetComponent<SpriteRenderer>();
             if (sr == null)
@@ -65,8 +74,34 @@ namespace TORWL.Patches.Misc
                 Debug.LogError("[Launchpad] Cube has no SpriteRenderer!");
                 return;
             }
-
             sr.color = Palette.CrewmateRoleBlue.DarkenColor();
+
+            var infoImage = whatIsThis.Find("InfoImage");
+            if (infoImage == null)
+            {
+                Debug.LogError("[Launchpad] Could not find InfoImage inside What Is This?");
+                return;
+            }
+
+            infoImage.localPosition = new Vector3(-4.3771f, 0.2106f, -1f);
+
+            var infoText = whatIsThis.Find("InfoText");
+            if (infoText == null)
+            {
+                Debug.LogError("[Launchpad] Could not find InfoText inside What Is This?");
+                return;
+            }
+
+            infoText.localPosition = new Vector3(-3.045f, 0.8466f, -2f);
+
+            var leftPanel = __instance.transform.Find("LeftPanel");
+            if (leftPanel == null)
+            {
+                Debug.LogError("[Launchpad] Could not find LeftPanel inside GameSettingMenu");
+                return;
+            }
+
+            leftPanel.localPosition = new Vector3(0f, -0.2214f, 0f);
         }
     }
 

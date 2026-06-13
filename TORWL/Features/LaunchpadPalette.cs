@@ -12,6 +12,7 @@ public static class LaunchpadPalette
     public static readonly Color CoronerColor = new Color32(167, 225, 242, 255);
     public static readonly Color GamblerColor = new Color32(207, 181, 59, 255);
     public static readonly Color TeleporterColor = new Color32(66, 135, 245, 255);
+    public static readonly Color ShielderColor = new Color32(82, 183, 136, 255);
     
 
     // Impostors
@@ -34,6 +35,12 @@ public static class LaunchpadPalette
     
     // Covens
     public static readonly Color TavernKeeperColor = new Color32(75, 0, 130, 255);
+    public static readonly Color ScribeColor = new Color32(142, 64, 173, 255);
+    public static readonly Color HexbinderColor = new Color32(102, 0, 153, 255);
+    public static readonly Color PoisonerColor = new Color32(57, 255, 20, 255);
+    public static readonly Color DominatorColor = new Color32(200, 30, 30, 255);
+    public static readonly Color ShroudweaverColor = new Color32(120, 200, 220, 255);
+    public static readonly Color AlchemistColor = new Color32(255, 140, 0, 255);
 
     // Other Modifiers
     public static readonly Color ToxifiedColor = new Color32(38, 138, 28, 255);
@@ -61,6 +68,7 @@ public static class LaunchpadPalette
     public static readonly Color FunMenu = new Color32(255, 120, 90, 255);
     public static readonly Color GeneralMenu = new Color32(255, 0, 255, 255);
     public static readonly Color VotingMenu = new Color32(0, 255, 180, 255);
+    public static readonly Color CovenMenu = new Color32(180, 80, 255, 255);
     public static readonly Color KingMenu = new Color32(255, 215, 0, 255);
     public static readonly Color FlashMenu = new Color32(255, 255, 60, 255);
     public static readonly Color VendettaMenu = new Color32(255, 0, 80, 255);
@@ -68,6 +76,7 @@ public static class LaunchpadPalette
     public static readonly Color MayorMenu = new Color32(245, 255, 255, 255);
     public static readonly Color BaitMenu = new Color32(11, 223, 56, 255);
     public static readonly Color BurstMenu = Color.cyan;
+    public static readonly Color RuneBoundMenu = new Color32(100, 50, 168, 255);
     
     // Task Headers
     public static readonly Color Coven = new Color32(153, 50, 204, 255);

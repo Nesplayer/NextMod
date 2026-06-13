@@ -4,6 +4,7 @@ using MiraAPI.Utilities.Assets;
 using TORWL.Buttons.Keybinds;
 using TORWL.Features.Wiki;
 using UnityEngine;
+using MiraAPI.Hud;
 
 namespace TORWL.Buttons;
 
@@ -14,9 +15,9 @@ public class WikiButton : BaseLaunchpadButton
     public override float Cooldown => 0;
     public override float EffectDuration => 0;
     public override int MaxUses => 0;
-    public override BaseKeybind Keybind => TORWLKeybinds.OpenWiki;
     public override LoadableAsset<Sprite> Sprite => LaunchpadAssets.WikiButton;
     public override bool TimerAffectedByPlayer => true;
+    public override ButtonLocation Location => ButtonLocation.BottomLeft;
 
     public override bool Enabled(RoleBehaviour? role)
     {
