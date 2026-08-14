@@ -1,0 +1,48 @@
+﻿using HarmonyLib;
+using NEXT.Components;
+using NEXT.Options;
+using NEXT.Utilities;
+using MiraAPI.GameOptions;
+using UnityEngine;
+
+namespace NEXT.Patches.Generic;
+
+[HarmonyPatch(typeof(ShipStatus))]
+public static class ShipStatusPatch
+{
+    /// <summary>
+    /// Create nodes on map load.
+    /// </summary>
+    [HarmonyPostfix]
+    [HarmonyPatch(nameof(ShipStatus.Awake))]
+    public static void ShipStatusBeginPostfix(ShipStatus __instance)
+    {
+        var nodesParent = new GameObject("Nodes");
+        nodesParent.transform.SetParent(__instance.transform);
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(ShipStatus.StartMeeting))]
+    public static void DisableFrozenBodyDeletionPatch()
+    {
+        foreach (var body in DeadBodyCacheComponent.GetFrozenBodies())
+        {
+            body.body.hideFlags = HideFlags.DontSave;
+        }
+    }
+
+    /// <summary>
+    /// Disable the meeting teleportation if option is enabled
+    /// </summary>
+    [HarmonyPrefix]
+    [HarmonyPatch(nameof(ShipStatus.SpawnPlayer))]
+    public static bool ShipStatusSpawnPlayerPrefix([HarmonyArgument(2)] bool initialSpawn)
+    {
+        if (TutorialManager.InstanceExists)
+        {
+            return true;
+        }
+
+        return initialSpawn || !OptionGroupSingleton<GeneralOptions>.Instance.DisableMeetingTeleport;
+    }
+}

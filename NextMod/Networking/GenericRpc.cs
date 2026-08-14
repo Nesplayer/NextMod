@@ -1,0 +1,29 @@
+﻿using NEXT.Roles.Crewmate;
+using NEXT.Utilities;
+using Reactor.Networking.Attributes;
+using Reactor.Utilities;
+using Helpers = MiraAPI.Utilities.Helpers;
+
+namespace NEXT.Networking;
+public static class GenericRpc
+{
+    [MethodRpc((uint)LaunchpadRpc.Revive)]
+    public static void RpcRevive(this PlayerControl playerControl, byte bodyId)
+    {
+        if (playerControl.Data.Role is not MedicRole)
+        {
+            playerControl.KickForCheating();
+            return;
+        }
+
+        var body = Helpers.GetBodyById(bodyId);
+        if (body != null)
+        {
+            body.Revive(playerControl);
+        }
+        else
+        {
+            Logger<NEXTPlugin>.Warning($"Body for id {bodyId} not found");
+        }
+    }
+}

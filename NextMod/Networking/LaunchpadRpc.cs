@@ -1,0 +1,27 @@
+namespace NEXT.Networking;
+public enum LaunchpadRpc : uint
+{
+    StartDrag,
+    StopDrag,
+    HideBodyInVent,
+    Revive,
+    CustomCheckColor,
+    CustomSetColor,
+    SyncAllColors,
+    Dissect,
+    DigVent,
+    SealVent,
+    ReaperCollect,
+    FreezeBody,
+    SetShield,
+    ClearShield,
+    AutoStartSync,
+    SendWelcome,
+    SendTag,
+    StopNGoSetActive,
+    StopNGoSetLight,
+    StopNGoSetTimer,
+    OutbreakInfectPlayer,
+    OutbreakSetProgress,
+    OutbreakSetActive,
+}

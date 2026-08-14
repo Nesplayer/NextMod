@@ -1,6 +1,6 @@
 <h1 align="center">🚀 TOR-W: Launchpad</h1>
 <p align="center">
-  <img src="TORWLBanner.png" alt="Cover" width="60%" height="60%"/>
+  <img src="NEXTBanner.png" alt="Cover" width="60%" height="60%"/>
   <br><br>
   <a href="https://discord.gg/ZAyjN2PbuK" target="_blank"><img src="https://dcbadge.limes.pink/api/server/ZAyjN2PbuK"/></a>
 </p>
